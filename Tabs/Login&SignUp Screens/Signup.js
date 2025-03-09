@@ -101,10 +101,11 @@ export default function SignUp_page(){
           </LinearGradient>
           </TouchableOpacity>
           </View>
-      <View style={Login_Styles.jumpcontain}>
-        <Text style={Login_Styles.A}>Already have a account?</Text>
-        <TouchableOpacity style={Login_Styles.Acontain} onPress={()=>navigation.navigate("Login")}>
-        <Text style={Login_Styles.signupText}> Login</Text>
+     
+      <View style={Login_Styles.footerContainer}>
+        <Text style={Login_Styles.footerText}>Already have a account?</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate("Login")}>
+          <Text style={Login_Styles.signupText}> Login</Text>
         </TouchableOpacity>
       </View>
       </LinearGradient>
@@ -193,31 +194,22 @@ const Login_Styles=StyleSheet.create({
         left:"8%"
     },
     
-    A:{
-        color: "#FFFFFF",
+    footerContainer: {
+        flexDirection: "row",
+        marginTop: 750,
+      },
+      footerText: {
+        color: "#ffffff",
         fontSize: 15,
         fontWeight: "regular",
-        textAlign: "center",
-        left:"-10%",
-    },
-    Acontain:{
-        flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    position:"absolute",
-    width:"90%",
-    left:95,
-    },
-    signupText:{
+      },
+      signupText: {
         color: "#FFFFFF",
-        fontSize: 16,
         fontWeight: "bold",
-        textAlign: "center",
-        position:"absolute",
+        marginLeft: 5,
+        fontSize: 16,
         textDecorationLine: "underline",
-        top:-11,
-    },
+      },
     input: {
         padding: 15,
         borderRadius: 20,
@@ -270,16 +262,6 @@ const Login_Styles=StyleSheet.create({
     borderWidth: 2,
     justifyContent: "center",
     alignItems: "center",
-    },
-    jumpcontain:{
-        top:850,
-       // flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    position:"absolute",
-    width:"90%"
-    
     },
       buttonText: {
         color: "#ffffff",

@@ -55,10 +55,10 @@ export default function Login_page(){
       <View style={Login_Styles.fcontain}>
         <Text style={Login_Styles.emailtext}>Forgot Password?</Text>
       </View>
-      <View style={Login_Styles.jumpcontain}>
-        <Text style={Login_Styles.A}>Don’t have a account?</Text>
-        <TouchableOpacity style={Login_Styles.Acontain} onPress={()=>navigation.navigate("SignUp")}>
-        <Text style={Login_Styles.signupText}> Sign Up Now</Text>
+      <View style={Login_Styles.footerContainer}>
+        <Text style={Login_Styles.footerText}>Don’t have a account?</Text>
+        <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>
+          <Text style={Login_Styles.signupText}>Sign Up Now</Text>
         </TouchableOpacity>
       </View>
       </LinearGradient>
@@ -103,7 +103,7 @@ const Login_Styles=StyleSheet.create({
     },
     logotext:{
         top:20,
-        left:18,
+        marginLeft:18,
         position:"absolute",
     },
     h1:{
@@ -158,15 +158,22 @@ const Login_Styles=StyleSheet.create({
     width:"90%",
     left:95,
     },
-    signupText:{
+    footerContainer: {
+        flexDirection: "row",
+        marginTop: 620,
+      },
+      footerText: {
+        color: "#ffffff",
+        fontSize: 15,
+        fontWeight: "regular",
+      },
+      signupText: {
         color: "#FFFFFF",
-        fontSize: 16,
         fontWeight: "bold",
-        textAlign: "center",
-        position:"absolute",
+        marginLeft: 5,
+        fontSize: 16,
         textDecorationLine: "underline",
-        top:-11,
-    },
+      },
     input: {
         padding: 15,
         borderRadius: 20,
@@ -214,16 +221,7 @@ const Login_Styles=StyleSheet.create({
     position:"absolute",
     width:"100%"
     },
-    jumpcontain:{
-        top:650,
-        flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    position:"absolute",
-    width:"90%"
-    
-    },
+   
       buttonText: {
         color: "#ffffff",
         fontWeight: "bold",

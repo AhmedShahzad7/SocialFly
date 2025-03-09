@@ -1,29 +1,20 @@
-import { StyleSheet, Text, View } from "react-native";
 
-export default function Page() {
+import { StyleSheet, Text, View } from "react-native";
+import Login_page from "../Tabs/Login&SignUp Screens/Login";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer,NavigationIndependentTree } from "@react-navigation/native";
+import SignUp_page from "../Tabs/Login&SignUp Screens/Signup";
+import H from "../Tabs/Home Screen/Home";
+const Stack = createNativeStackNavigator();
+
+export default function AppNavigator() {
   return (
-    <View style={styles.container}>
-      <View style={styles.main}>
-        <Text style={styles.title}>Hello World</Text>
-      </View>
-    </View>
+    
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login_page} />
+        <Stack.Screen name="SignUp" component={SignUp_page} />
+        <Stack.Screen name="Home" component={H} />
+      </Stack.Navigator>
+      
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    padding: 24,
-  },
-  main: {
-    flex: 1,
-    justifyContent: "center",
-    maxWidth: 960,
-    marginHorizontal: "auto",
-  },
-  title: {
-    fontSize: 64,
-    fontWeight: "bold",
-  },
-});

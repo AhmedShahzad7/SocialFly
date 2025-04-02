@@ -22,7 +22,11 @@ export default function Login_page(){
         const auth = FIREBASE_AUTH;
         await signInWithEmailAndPassword(auth,email, password);
         alert('Welcome: '+ email);
+<<<<<<< HEAD
+        navigation.navigate("Profile");
+=======
         navigation.replace("MainApp", { screen: "Home" });
+>>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
         setemail('');
         setpassword('');
     }

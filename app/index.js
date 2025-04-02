@@ -1,16 +1,24 @@
+<<<<<<< HEAD
+import { StyleSheet, Text, View } from "react-native";
+=======
 
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
+>>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
 import Login_page from "../Tabs/Login&SignUp Screens/Login";
 import SignUp_page from "../Tabs/Login&SignUp Screens/Signup";
 import H from "../Tabs/Home Screen/Home";
+<<<<<<< HEAD
+import Profile from "../Tabs/Profile Screen/Profile";
+=======
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import C from "../Tabs/Chats Screen/chatpage";
 import S from "../Tabs/Search Screen/searchpage";
 import Sett from "../Tabs/Settings Screen/Settings";
 import prof from "../Tabs/Profile Page Screen/ProfileScreen";
 import {LinearGradient} from 'expo-linear-gradient';
+>>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -133,11 +141,19 @@ function BottomTabNavigator() {
 
 export default function AppNavigator() {
   return (
+<<<<<<< HEAD
+      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Login" component={Login_page} />
+        <Stack.Screen name="SignUp" component={SignUp_page} />
+        <Stack.Screen name="Home" component={H} />
+        <Stack.Screen name="Profile" component={Profile} />
+=======
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* Show Auth screens first */}
         <Stack.Screen name="Auth" component={AuthStackNavigator} />
         {/* Show Bottom Tabs (including Home) after login */}
         <Stack.Screen name="MainApp" component={BottomTabNavigator} />
+>>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
       </Stack.Navigator>
   );
 }

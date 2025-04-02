@@ -4,7 +4,6 @@ import { Ionicons } from "@expo/vector-icons";
 import Login_page from "../Tabs/Login&SignUp Screens/Login";
 import SignUp_page from "../Tabs/Login&SignUp Screens/Signup";
 import H from "../Tabs/Home Screen/Home";
-import Profile from "../Tabs/Profile Screen/Profile";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import C from "../Tabs/Chats Screen/chatpage";
 import S from "../Tabs/Search Screen/searchpage";

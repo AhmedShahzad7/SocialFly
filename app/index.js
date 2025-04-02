@@ -1,5 +1,4 @@
 import { StyleSheet, Text, View } from "react-native";
-import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
 import Login_page from "../Tabs/Login&SignUp Screens/Login";

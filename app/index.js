@@ -1,17 +1,12 @@
-<<<<<<< HEAD
 import { StyleSheet, Text, View } from "react-native";
-=======
-
 import { View } from "react-native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
->>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
 import Login_page from "../Tabs/Login&SignUp Screens/Login";
 import SignUp_page from "../Tabs/Login&SignUp Screens/Signup";
 import H from "../Tabs/Home Screen/Home";
-<<<<<<< HEAD
 import Profile from "../Tabs/Profile Screen/Profile";
-=======
+
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import C from "../Tabs/Chats Screen/chatpage";
 import S from "../Tabs/Search Screen/searchpage";

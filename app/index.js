@@ -18,7 +18,6 @@ import S from "../Tabs/Search Screen/searchpage";
 import Sett from "../Tabs/Settings Screen/Settings";
 import prof from "../Tabs/Profile Page Screen/ProfileScreen";
 import {LinearGradient} from 'expo-linear-gradient';
->>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 

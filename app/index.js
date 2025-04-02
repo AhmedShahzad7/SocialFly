@@ -141,19 +141,11 @@ function BottomTabNavigator() {
 
 export default function AppNavigator() {
   return (
-<<<<<<< HEAD
-      <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="Login" component={Login_page} />
-        <Stack.Screen name="SignUp" component={SignUp_page} />
-        <Stack.Screen name="Home" component={H} />
-        <Stack.Screen name="Profile" component={Profile} />
-=======
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* Show Auth screens first */}
         <Stack.Screen name="Auth" component={AuthStackNavigator} />
         {/* Show Bottom Tabs (including Home) after login */}
         <Stack.Screen name="MainApp" component={BottomTabNavigator} />
->>>>>>> 9e55bdbeefeee5dd0d782f65b4b7ee4d197b4034
       </Stack.Navigator>
   );
 }

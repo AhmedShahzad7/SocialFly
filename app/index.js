@@ -6,7 +6,6 @@ import Login_page from "../Tabs/Login&SignUp Screens/Login";
 import SignUp_page from "../Tabs/Login&SignUp Screens/Signup";
 import H from "../Tabs/Home Screen/Home";
 import Profile from "../Tabs/Profile Screen/Profile";
-
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import C from "../Tabs/Chats Screen/chatpage";
 import S from "../Tabs/Search Screen/searchpage";
@@ -22,6 +21,7 @@ function AuthStackNavigator() {
     <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="Login" component={Login_page} />
       <Stack.Screen name="SignUp" component={SignUp_page} />
+      <Stack.Screen name="prof" component={prof} />
     </Stack.Navigator>
   );
 }

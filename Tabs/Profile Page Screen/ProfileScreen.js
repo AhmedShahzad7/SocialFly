@@ -144,8 +144,8 @@ const profile_style=StyleSheet.create({
         flexDirection:'row'
     },
     createpostbutton: {
-        width: 150,     
-        padding: 15,
+        width: 140,     
+        padding: 10,
         borderRadius: 15,
         backgroundColor: "#00BCD4",
         borderColor: "#384448",

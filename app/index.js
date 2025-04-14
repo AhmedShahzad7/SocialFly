@@ -9,6 +9,7 @@ import C from "../Tabs/Chats Screen/chatpage";
 import S from "../Tabs/Search Screen/searchpage";
 import Sett from "../Tabs/Settings Screen/Settings";
 import prof from "../Tabs/Profile Page Screen/ProfileScreen";
+import ProfileDetailScreen from "../Tabs/Settings Screen/Profile Detail Page/ProfileDetail";
 import {LinearGradient} from 'expo-linear-gradient';
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -138,6 +139,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Auth" component={AuthStackNavigator} />
         {/* Show Bottom Tabs (including Home) after login */}
         <Stack.Screen name="MainApp" component={BottomTabNavigator} />
+        <Stack.Screen name="Profile Detail" component={ProfileDetailScreen} />
       </Stack.Navigator>
   );
 }

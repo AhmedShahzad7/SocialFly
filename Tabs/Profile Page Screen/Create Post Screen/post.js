@@ -1,10 +1,9 @@
 import React from 'react';
 import { View, Text, StyleSheet,TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from "@react-navigation/native";
-export default function H() {
-  const navi = useNavigation();
+
+export default function createpost() {
+  
   return (
     <LinearGradient
         colors={['#00BCD4', '#FFFFFF']}
@@ -15,11 +14,8 @@ export default function H() {
             padding:0,
             margin:0,
         }}>
-      <TouchableOpacity style={styles.bellContainer} onPress={()=>navi.navigate("Notifications")}>
-        <Ionicons name="notifications-outline" size={28} color="#333" />
-      </TouchableOpacity>
     <View style={styles.container}>
-      <Text style={styles.text}>Home Page!</Text>
+      <Text style={styles.text}>Create Post Page!</Text>
     </View>
     </LinearGradient>
   );
@@ -30,12 +26,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  bellContainer: {
-    position: 'absolute',
-    top: 40, 
-    right: 20,
-    zIndex: 10,
   },
   text: {
     fontSize: 24,

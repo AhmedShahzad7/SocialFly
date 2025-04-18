@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 
 export default function prof(){
-    const navigation = useNavigation();
+    const navi = useNavigation();
     const [post,set_post]=useState([])
     const [friendcount,set_friendcount]=useState(0)
     const [postcount,set_postcount]=useState(0)
@@ -66,7 +66,7 @@ export default function prof(){
         <StatusBar   style="dark" translucent={true} backgroundColor="black" />
         {/*Create Post Button Section*/}
         <View style={profile_style.createpostrow}>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={()=>navi.navigate("Create Post")}>
                 <LinearGradient colors={["#00BCD4", "#384448"]} style={profile_style.createpostbutton}>
                 <Icon name="plus" style={profile_style.createposticon}/>
                     <Text style={profile_style.createposttext}>Create Post</Text>

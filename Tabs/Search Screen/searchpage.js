@@ -8,16 +8,34 @@ export default function S() {
   const [usernames, setAllUsernames] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [profileData, setProfileData] = useState([]);
+  
   const getAllUsernames = async () => {
-    const allNames = collection(FIRESTORE_DB, 'Users');
-    const getting = await getDocs(allNames);
-    const currentUser = getAuth().currentUser;
-    const data = getting.docs.filter((doc) => doc.id !== currentUser.uid).map((doc) => ({
-      username: doc.data().username,
-      profileUrl: doc.data().profile_url,
-    }));
-    setProfileData(data);
-    setAllUsernames(data.map((item) => item.username));
+    const auth = getAuth();
+    const currentUser = auth.currentUser;
+
+    
+    const userDoc = await getDoc(doc(FIRESTORE_DB, 'Users', currentUser.uid));
+    const currentUsername = userDoc.data().username;
+
+    
+    const friendsSnapshot = await getDocs(collection(FIRESTORE_DB, 'Friends'));
+    const currentUserFriends = friendsSnapshot.docs
+      .filter(doc => doc.data().username === currentUsername)
+      .map(doc => doc.data().friendname); 
+
+    
+    const usersSnapshot = await getDocs(collection(FIRESTORE_DB, 'Users'));
+    const filteredUsers = usersSnapshot.docs
+      .filter(doc => doc.id !== currentUser.uid) 
+      .map(doc => ({
+        username: doc.data().username,
+        profileUrl: doc.data().profile_url,
+      }))
+      .filter(user => !currentUserFriends.includes(user.username)); 
+
+    
+    setProfileData(filteredUsers);
+    setAllUsernames(filteredUsers.map((item) => item.username));
   };
 
   useEffect(() => {
@@ -42,6 +60,7 @@ export default function S() {
 
     await addDoc(collection(FIRESTORE_DB, 'FriendRequests'), request);
     alert(`Friend request sent to ${toUsername}`);
+    await getAllUsernames();
   }
   return (
     <LinearGradient

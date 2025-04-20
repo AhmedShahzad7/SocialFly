@@ -13,6 +13,7 @@ import ProfileDetailScreen from "../Tabs/Settings Screen/Profile Detail Page/Pro
 import {LinearGradient} from 'expo-linear-gradient';
 import noti from "../Tabs/Home Screen/Notification Screen/notification";
 import createpost from "../Tabs/Profile Page Screen/Create Post Screen/post";
+import AboutScreen from "../Tabs/Settings Screen/About Screen/About";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -144,6 +145,7 @@ export default function AppNavigator() {
         <Stack.Screen name="Profile Detail" component={ProfileDetailScreen} />
         <Stack.Screen name="Notifications" component={noti} />
         <Stack.Screen name="Create Post" component={createpost} />
+        <Stack.Screen name="About" component={AboutScreen} />
       </Stack.Navigator>
   );
 }

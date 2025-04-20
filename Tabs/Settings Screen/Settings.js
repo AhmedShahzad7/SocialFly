@@ -43,6 +43,9 @@ export default function sett () {
             if (item.label === 'Profile detail') {
               navi.navigate('Profile Detail'); 
             }
+            if (item.label === 'About') {
+              navi.navigate('About'); 
+            }
             //  add more conditions here for other Pages
           }}
         >

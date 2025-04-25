@@ -19,6 +19,7 @@ export default function prof(){
     const [postcount,set_postcount]=useState(0)
     const [username,set_username]=useState("Username")
     const [currentuser,set_currentuser]=useState(null)
+    const [profileurl,set_profileurl]=useState("");
     //Initializing Fonts to be used
     let load_fonts=useFonts({
         Poppins_700Bold
@@ -34,7 +35,6 @@ export default function prof(){
             return;
         }else{
             set_currentuser(current);
-            console.log(current);
             const User_collection = doc(FIRESTORE_DB, "Users", current.uid);
             const snapshot = await getDoc(User_collection);
             const user_data=snapshot.data();
@@ -42,13 +42,14 @@ export default function prof(){
             const post_collections=collection(FIRESTORE_DB,"Posts");
             const snapshots=await getDocs(post_collections);
             const post_data=snapshots.docs.map(doc=>doc.data()).filter(post=>post.username==user_data.username);
-            set_postcount(post_data.length)
+            set_postcount(post_data.length);
+            set_profileurl(user_data.profile_url);
             set_post(post_data);
         }
     };
 
         Setup_CurrentUser()
-    },[])
+    })
  
 
     return(
@@ -78,6 +79,7 @@ export default function prof(){
             {/*PF Image holder*/}
             <View style={profile_style.pfimg}>
              {/*Reminder to put <Image> here*/}
+             <Image source={{ uri: profileurl}} style={{ width: "100%", height: "100%",borderRadius:75, }}/>
              </View>
             <View style={profile_style.pftext}>
                     <Text style={profile_style.pftextuser}>{username}</Text>
@@ -105,8 +107,8 @@ export default function prof(){
         <ScrollView>
         <View style={profile_style.postsection}>
             <View style={profile_style.postsectionmini}>
-                    {post.map((row)=>(
-                     <View key={row.postid}   style={profile_style.postdata}>
+                    {post.map((row,index)=>(
+                     <View key={index}   style={profile_style.postdata}>
                             {row.post_type==="txt"?(
                                  <Text style={profile_style.post_text}>{row.post_txt}</Text>
 

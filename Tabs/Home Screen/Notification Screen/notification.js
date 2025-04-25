@@ -124,10 +124,11 @@ export default function noti() {
                       
                 </View>
                 <View style={styles.request_minibox}>
-                      <Text style={styles.request_text}>{row.from} sent you a friend request!</Text>
+                      <Text style={styles.request_text}>{row.from} sent you a friend request! </Text>
                       <TouchableOpacity style={styles.request_button} onPress={()=>accept_request(row.from)} >
                       <Text style={{fontFamily:"Poppins_700Bold",fontSize:14,}}>Accept</Text>
                       </TouchableOpacity>
+                      <Text style={styles.request_date}>{row.timestamp.toDate().toLocaleDateString()}</Text>
                 </View>
                 
             </View> 
@@ -176,7 +177,7 @@ const styles = StyleSheet.create({
     marginLeft:10,
     marginTop:20,
     backgroundColor:'white',
-    height:120,
+    height:132,
     justifyContent:'flex-start',
     alignItems:'flex-start',
     flexDirection:'row',
@@ -209,6 +210,13 @@ const styles = StyleSheet.create({
     color:"black",
     marginTop:20,
   },
+  request_date:{
+    fontFamily:"Poppins_700Bold",
+    fontSize:12,
+    fontWeight:"450",
+    color:"grey",
+    marginTop:5,
+  },  
   request_button:{
     borderRadius:20,
     marginTop:20,

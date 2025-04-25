@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState,useEffect } from "react";
 import { FIRESTORE_DB,FIREBASE_AUTH } from "../../FirebaseConfig";
 import {Poppins_700Bold, useFonts } from '@expo-google-fonts/poppins';
-import { collection, getDocs, setDoc, doc,getDoc } from "firebase/firestore";
+import { addDoc,collection, getDocs, setDoc, doc,getDoc, query, updateDoc,where } from "firebase/firestore";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 
@@ -45,12 +45,19 @@ export default function prof(){
             set_postcount(post_data.length);
             set_profileurl(user_data.profile_url);
             set_post(post_data);
+            const get_query2=query(collection(FIRESTORE_DB,"Friends"),where("username","==",user_data.username));
+            //Running this query
+            const run_query2=await getDocs(get_query2);
+            set_friendcount(run_query2.docs.length);
+                
         }
     };
 
         Setup_CurrentUser()
     })
- 
+    
+
+
 
     return(
         //Outer Linear Gradient Background

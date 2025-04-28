@@ -98,7 +98,9 @@ export default function prof(){
 
                         </View>
                         <View style={profile_style.pftexnumtext}>
+                            <TouchableOpacity onPress={()=>navi.navigate("Friend List")}>
                             <Text style={profile_style.pftextcounter}>{friendcount}</Text>
+                            </TouchableOpacity>
                             <Text style={profile_style.pftextlabel}>Friends</Text>
                         </View>
                     </View>

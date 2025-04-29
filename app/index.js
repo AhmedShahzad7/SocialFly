@@ -16,6 +16,7 @@ import createpost from "../Tabs/Profile Page Screen/Create Post Screen/post";
 import AboutScreen from "../Tabs/Settings Screen/About Screen/About";
 import Message from "../Tabs/Chats Screen/Messages Screen/Messages";
 import friendlist from "../Tabs/Profile Page Screen/Friend List Screen/Friendlist";
+import Comment from "../Tabs/Home Screen/Comment Screen/Comment";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -150,6 +151,7 @@ export default function AppNavigator() {
         <Stack.Screen name="About" component={AboutScreen} />
         <Stack.Screen name="Message" component={Message} />
         <Stack.Screen name="Friend List" component={friendlist} />
+        <Stack.Screen name="Comment" component={Comment} />
       </Stack.Navigator>
   );
 }

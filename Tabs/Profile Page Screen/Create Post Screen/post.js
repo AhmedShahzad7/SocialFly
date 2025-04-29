@@ -151,9 +151,10 @@ export default function createpost() {
             post_txt: "-",
             post_type:"img",
             post_url:link,
-            postid:10,
             username:currentuname,
             post_date:string_date,
+            likecount:0,
+            commentcount:0,
           });
           Alert.alert(
             "Sucessfully Uploaded the post!"
@@ -165,9 +166,10 @@ export default function createpost() {
             post_txt:posttext,
             post_type:"txt",
             post_url:"-",
-            postid:10,
             username:currentuname,
             post_date:string_date,
+            likecount:0,
+            commentcount:0,
           });
           Alert.alert(
             "Sucessfully Uploaded the post!"

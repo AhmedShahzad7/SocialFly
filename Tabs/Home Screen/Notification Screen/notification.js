@@ -4,7 +4,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useState,useEffect } from "react";
 import { FIRESTORE_DB,FIREBASE_AUTH } from "../../../FirebaseConfig";
 import {Poppins_700Bold, useFonts } from '@expo-google-fonts/poppins';
-import { addDoc,collection, getDocs, setDoc, doc,getDoc, query, updateDoc,where } from "firebase/firestore";
+import { addDoc,collection, getDocs, setDoc, doc,getDoc, query, updateDoc,where,deleteDoc } from "firebase/firestore";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { Ionicons } from '@expo/vector-icons';
 import prof from "../../Profile Page Screen/ProfileScreen";
@@ -12,7 +12,7 @@ import prof from "../../Profile Page Screen/ProfileScreen";
 
 
 const GetImgTag=({friendname})=>{
-  const [profurl,set_profurl]=useState("");
+  const [profurl,set_profurl]=useState("-");
 
   useEffect(()=>{
     const get_url=async()=> {
@@ -54,9 +54,9 @@ export default function noti() {
           const user_data=snapshot.data();
           const post_collections=collection(FIRESTORE_DB,"FriendRequests");
           const snapshots=await getDocs(post_collections);
-          const request_data=snapshots.docs.map(doc=>doc.data()).filter(friendrequests=>friendrequests.toUsername==user_data.username);
+          const request_data=snapshots.docs.map(doc=>doc.data()).filter(friendrequests=>friendrequests.toUsername==user_data.username && friendrequests.status=="pending");
           set_currentuname(user_data.username);
-          set_requests(request_data)
+          set_requests(request_data);
       }
     }
     Setup_CurrentUser();
@@ -67,11 +67,9 @@ export default function noti() {
     //Running this query
     const run_query=await getDocs(get_query);
     //Updating only one
-    for(i=0;i<run_query.docs.length;i++){
-    await updateDoc(run_query.docs[i].ref,{
-      status:'accepted',
+    run_query.forEach(async (row)=>{
+          await deleteDoc(doc(FIRESTORE_DB,"FriendRequests",row.id))
     })
-  }
     //Check if already friends
     const get_query2=query(collection(FIRESTORE_DB,"Friends"), where("friendname","==",friendname),where("username","==",currentuname));
     //Running this query
@@ -117,11 +115,9 @@ export default function noti() {
             </Text>
               ) :
             (requests.map((row)=>(
-            <View key={row.id} style={styles.request_box}>
+            <View key={row.from} style={styles.request_box}>
                 <View style={styles.request_imgbox}>
-                        {/*Reminder to put Image Here*/}
-                        <GetImgTag friendname={row.from}/>
-                      
+                        <GetImgTag friendname={row.from}/>    
                 </View>
                 <View style={styles.request_minibox}>
                       <Text style={styles.request_text}>{row.from} sent you a friend request! </Text>

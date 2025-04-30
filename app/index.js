@@ -17,6 +17,8 @@ import AboutScreen from "../Tabs/Settings Screen/About Screen/About";
 import Message from "../Tabs/Chats Screen/Messages Screen/Messages";
 import friendlist from "../Tabs/Profile Page Screen/Friend List Screen/Friendlist";
 import Comment from "../Tabs/Home Screen/Comment Screen/Comment";
+import liked_posts from "../Tabs/Settings Screen/Liked Posts Screen/likedpost";
+import screentimer from "../Tabs/Settings Screen/Screentime";
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
 
@@ -152,6 +154,8 @@ export default function AppNavigator() {
         <Stack.Screen name="Message" component={Message} />
         <Stack.Screen name="Friend List" component={friendlist} />
         <Stack.Screen name="Comment" component={Comment} />
+        <Stack.Screen name="Liked Posts" component={liked_posts} />
+        <Stack.Screen name="Screen Time" component={screentimer} />
       </Stack.Navigator>
   );
 }

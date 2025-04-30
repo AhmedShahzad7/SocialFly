@@ -46,6 +46,12 @@ export default function sett () {
             if (item.label === 'About') {
               navi.navigate('About'); 
             }
+            if (item.label === 'Liked Posts') {
+              navi.navigate('Liked Posts'); 
+            }
+            if (item.label === 'Screen time') {
+              navi.navigate('Screen Time'); 
+            }
             //  add more conditions here for other Pages
           }}
         >

@@ -1,14 +1,12 @@
-import { StyleSheet,View,Text,TextInput,Image,TouchableOpacity,ScrollView,StatusBar,SafeAreaView } from "react-native";
+import { StyleSheet,View,Text,Image,TouchableOpacity,ScrollView,StatusBar } from "react-native";
 import {LinearGradient} from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import { useState,useEffect } from "react";
-import { FIRESTORE_DB,FIREBASE_AUTH } from "../../FirebaseConfig";
+import { FIREBASE_AUTH } from "../../FirebaseConfig";
 import {Poppins_700Bold, useFonts } from '@expo-google-fonts/poppins';
-import { addDoc,collection, getDocs, setDoc, doc,getDoc, query, updateDoc,where } from "firebase/firestore";
+import { getDocs} from "firebase/firestore";
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-
-
+import { FetchAllData,FetchCurrentUserPosts,FetchCurrentUserFriends } from "../FetchData";
 
 
 
@@ -35,19 +33,18 @@ export default function prof(){
             return;
         }else{
             set_currentuser(current);
-            const User_collection = doc(FIRESTORE_DB, "Users", current.uid);
-            const snapshot = await getDoc(User_collection);
-            const user_data=snapshot.data();
-            set_username(user_data.username);
-            const post_collections=collection(FIRESTORE_DB,"Posts");
-            const snapshots=await getDocs(post_collections);
-            const post_data=snapshots.docs.map(doc=>doc.data()).filter(post=>post.username==user_data.username);
-            set_postcount(post_data.length);
-            set_profileurl(user_data.profile_url);
-            set_post(post_data);
-            const get_query2=query(collection(FIRESTORE_DB,"Friends"),where("username","==",user_data.username));
+            const fetchcurrentusername=new FetchAllData();
+            const currentusername=await fetchcurrentusername.fetchdata();
+            set_username(currentusername.username);
+            set_profileurl(currentusername.profile_url);
+            const fetchcurrentposts=new FetchCurrentUserPosts();
+            const currentposts=await fetchcurrentposts.fetchdata();
+            set_postcount(currentposts.length);
+            set_post(currentposts);
             //Running this query
-            const run_query2=await getDocs(get_query2);
+            const fetchcurrentfriends=new FetchCurrentUserFriends();
+            const currentfriends=await fetchcurrentfriends.fetchdata();
+            const run_query2=await getDocs(currentfriends);
             set_friendcount(run_query2.docs.length);
                 
         }

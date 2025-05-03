@@ -1,41 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity,Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { collection, getDocs,addDoc,doc,getDoc } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../FirebaseConfig';
-import { getAuth } from 'firebase/auth';
+import { FetchAppUsers } from '../FetchData';
+import { AuthService,FriendRequestsend } from '../AuthenticationService';
 export default function S() {
   const [usernames, setAllUsernames] = useState([]);
   const [searchInput, setSearchInput] = useState('');
   const [profileData, setProfileData] = useState([]);
   
   const getAllUsernames = async () => {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
 
-    
-    const userDoc = await getDoc(doc(FIRESTORE_DB, 'Users', currentUser.uid));
-    const currentUsername = userDoc.data().username;
-
-    
-    const friendsSnapshot = await getDocs(collection(FIRESTORE_DB, 'Friends'));
-    const currentUserFriends = friendsSnapshot.docs
-      .filter(doc => doc.data().username === currentUsername)
-      .map(doc => doc.data().friendname); 
-
-    
-    const usersSnapshot = await getDocs(collection(FIRESTORE_DB, 'Users'));
-    const filteredUsers = usersSnapshot.docs
-      .filter(doc => doc.id !== currentUser.uid) 
-      .map(doc => ({
-        username: doc.data().username,
-        profileUrl: doc.data().profile_url,
-      }))
-      .filter(user => !currentUserFriends.includes(user.username)); 
-
-    
-    setProfileData(filteredUsers);
-    setAllUsernames(filteredUsers.map((item) => item.username));
+    const Allappusers=new FetchAppUsers();
+    const snapshotappusers=await Allappusers.fetchdata();
+    setProfileData(snapshotappusers);
+    setAllUsernames(snapshotappusers.map((item) => item.username));
   };
 
   useEffect(() => {
@@ -45,20 +23,14 @@ export default function S() {
   const filteredUsernames = profileData.filter((item) =>
     item.username.toLowerCase().includes(searchInput.toLowerCase())
   );
+  
   const sendFriendRequest = async (toUsername) => {
-    const auth = getAuth();
-    const currentUser = auth.currentUser;
-    const userDoc = doc(FIRESTORE_DB, 'Users', currentUser.uid);
-    const userSnap = await getDoc(userDoc);
-    const fromUsername = userSnap.data().username;
-    const request = {
-      from: fromUsername,
-      toUsername: toUsername,
-      status: 'pending',
-      timestamp: new Date(),
+    const formData={
+      sendusername:toUsername,
     };
-
-    await addDoc(collection(FIRESTORE_DB, 'FriendRequests'), request);
+    const friendrequestinstance=new FriendRequestsend();
+    const requestadded=new AuthService(friendrequestinstance);
+    requestadded.authenticate(formData);
     alert(`Friend request sent to ${toUsername}`);
     await getAllUsernames();
   }

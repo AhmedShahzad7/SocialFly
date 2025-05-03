@@ -1,53 +1,17 @@
 import React, { useState,useEffect } from 'react';
-import { View, Text, StyleSheet, TextInput, ScrollView, TouchableOpacity,Image } from 'react-native';
+import { View, Text, StyleSheet, TextInput, ScrollView,Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { getAuth } from 'firebase/auth';
-import { getDoc,doc,query,collection,where,getDocs } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../../FirebaseConfig';
+import { FetchCurrentFriendList } from '../../FetchData';
 export default function friendlist() {
     const [listfriends,setfriendlist]=useState([]);
     const [searchInput, setSearchInput] = useState('');
     const [allFriends, setAllFriends] = useState([]);
 
     const fetchfriendlist = async () => {
-        const auth = getAuth();
-        const current = auth.currentUser;
-        const UserDetails = doc(FIRESTORE_DB, "Users", current.uid);
-        const snapusername = await getDoc(UserDetails);
-        const currentusername=snapusername.data();
-        const q = query(
-          collection(FIRESTORE_DB, "Friends"),
-          where("username", "==", currentusername.username)
-        );
-        const snapshot = await getDocs(q);
-      
-        const friendsData = await Promise.all(
-          snapshot.docs.map(async (docItem) => {
-            const friendUsername = docItem.data().friendname;
-            
-            const userQuery = query(
-              collection(FIRESTORE_DB, "Users"),
-              where("username", "==", friendUsername)
-            );
-            const userSnapshot = await getDocs(userQuery);
-      
-            if (!userSnapshot.empty) {
-              const friendData = userSnapshot.docs[0].data();
-              return {
-                friendname: friendUsername,
-                profileimage: friendData.profile_url 
-              };
-            } else {
-              return {
-                friendname: friendUsername,
-                profileimage: '', 
-              };
-            }
-          })
-        );
-      
-        setfriendlist(friendsData);
-        setAllFriends(friendsData);
+        const currentfriendlist=new FetchCurrentFriendList();
+        const userfriends=await currentfriendlist.fetchdata();
+        setfriendlist(userfriends);
+        setAllFriends(userfriends);
       };
       
       useEffect(() => {

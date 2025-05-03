@@ -1,13 +1,10 @@
-import { StyleSheet,View,Text,TextInput,Image,TouchableOpacity,ScrollView,StatusBar,SafeAreaView,Platform,Alert } from "react-native";
+import { StyleSheet,View,Text,TextInput,TouchableOpacity,Platform,Alert } from "react-native";
 import {LinearGradient} from 'expo-linear-gradient';
-import { useNavigation } from "@react-navigation/native";
 import { useState,useEffect } from "react";
 import { FIRESTORE_DB,FIREBASE_AUTH } from "../../../FirebaseConfig";
 import {Poppins_500Medium, Poppins_600SemiBold, Poppins_700Bold, Poppins_800ExtraBold, useFonts } from '@expo-google-fonts/poppins';
-import { addDoc,collection, getDocs, setDoc, doc,getDoc, query, updateDoc,where } from "firebase/firestore";
-import Icon from 'react-native-vector-icons/FontAwesome';
-import { Ionicons,Feather } from '@expo/vector-icons';
-import prof from "../../Profile Page Screen/ProfileScreen";
+import { addDoc,collection, setDoc, doc,getDoc } from "firebase/firestore";
+import {Feather } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 
 export default function createpost() {

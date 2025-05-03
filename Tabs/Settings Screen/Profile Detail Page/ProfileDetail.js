@@ -3,11 +3,10 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Alert, Platform, I
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from 'expo-image-picker';
 import { getAuth } from "firebase/auth";
-import { getDoc, doc, setDoc, updateDoc } from "firebase/firestore";
+import {  doc, updateDoc } from "firebase/firestore";
 import { FIRESTORE_DB } from "../../../FirebaseConfig";
-
-
-
+import { FetchAllData } from "../../FetchData";
+import { AuthService,updateUserinfo } from "../../AuthenticationService";
 
 
 export default function ProfileDetailScreen() {
@@ -51,17 +50,15 @@ export default function ProfileDetailScreen() {
 
   const user = getAuth().currentUser;
 
-  const profilefetch = async () => {
-    const userdoc = await getDoc(doc(FIRESTORE_DB, "Users", user.uid));
-    const userData = userdoc.data();
-    setupdatefullname(userData.fullName);
-    setupdateemail(userData.email);
-    setupdateusername(userData.username);
-    setupdatepassword(userData.password);
-    if (userData.profile_url) {
-      set_urlimg(userData.profile_url);
-    }
-  };
+  const profilefetch=async()=>{
+    const fetch=new FetchAllData();
+    const v=await fetch.fetchdata();
+    setupdatefullname(v.fullName);
+    setupdateemail(v.email);
+    setupdateusername(v.username);
+    setupdatepassword(v.password);
+    set_urlimg(v.profile_url);
+  }
 
   useEffect(() => {
     profilefetch();
@@ -129,16 +126,18 @@ export default function ProfileDetailScreen() {
     }
   };
 
+  const formData={
+    fullName:updatefullname,
+  };
+
   const handlesave = async () => {
     if (!updatefullname) {
       alert('Fill all the fields');
       return;
     }
-
-    await setDoc(doc(FIRESTORE_DB, "Users", user.uid), {
-      fullName: updatefullname,
-    }, { merge: true });
-
+    const ProfileInstance=new updateUserinfo();
+    const Updationprofile=new AuthService(ProfileInstance);
+    Updationprofile.authenticate(formData);
     alert("Profile Updated Successfully!");
   };
 

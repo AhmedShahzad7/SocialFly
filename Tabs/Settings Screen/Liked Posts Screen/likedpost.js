@@ -1,32 +1,13 @@
 import React, { useState,useEffect } from 'react';
 import { View, StyleSheet,ScrollView,Text,Image } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { getDoc,doc,query,where,collection,getDocs } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../../FirebaseConfig';
-import { getAuth } from 'firebase/auth';
+import { FetchLikedPosts } from '../../FetchData';
 export default function liked_posts() {
     const [posts, setPosts] = useState([]);
     const getposts=async()=>{
-        const current = getAuth().currentUser;
-        const currentUser_collection = doc(FIRESTORE_DB, "Users", current.uid);
-        const usersnapshot = await getDoc(currentUser_collection);
-        const currentuser_data_username=usersnapshot.data().username;
-        const postquery = query(
-            collection(FIRESTORE_DB, "Likes"),
-            where("username", "==", currentuser_data_username)
-          );
-        const querySnapshot = await getDocs(postquery);
-        const postIds = querySnapshot.docs.map(doc => doc.data().post_id); // assuming each Like document has postId
-        const postsData = [];
-        for (let postId of postIds) {
-          const postRef = doc(FIRESTORE_DB, 'Posts', postId);
-          const postSnap = await getDoc(postRef);
-          if (postSnap.exists()) {
-            const post = postSnap.data();
-            postsData.push({ id: postId, ...post });
-          }
-        }
-        setPosts(postsData);
+      const fetchingliked=new FetchLikedPosts();
+      const getliked=await fetchingliked.fetchdata();
+        setPosts(getliked);
     }
     useEffect(() => {
       getposts();

@@ -2,62 +2,56 @@ import { StyleSheet,View,Text,TextInput,Image,TouchableOpacity,ScrollView } from
 import {LinearGradient} from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { FIRESTORE_DB,FIREBASE_AUTH } from "../../FirebaseConfig";
-import { collection, getDocs, setDoc, doc } from "firebase/firestore";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { Fetchemails,Fetchusername } from "../FetchData";
+import { AuthService,SignUpClass } from "../AuthenticationService";
 export default function SignUp_page(){
     const navi = useNavigation();
-    const [fullname,setfullname]=useState('');
-    const [username,setusername]=useState('');
-    const [email,setemail]=useState('');
-    const [password,setpassword]=useState('');
-    const [confirmpass,setconfirmpass]=useState('');
-   
+    const[datausernames,setdatausernames]=useState([]);
+    const[dataemails,setdataemails]=useState([]);
+    const [formData, setFormData] = useState({
+      fullname:'',
+      username:'',
+      email:'',
+      password: '',
+      confirmpass:'',
+    });
+    const fetchData=async()=>{
+        const getallusernames=new Fetchusername();
+        const usernamesinfo=await getallusernames.fetchdata();
+        const getallemails=new Fetchemails();
+        const emailsinfo=await getallemails.fetchdata();
+        setdatausernames(usernamesinfo);
+        setdataemails(emailsinfo);
+        }
+     fetchData();
     const handlesignup=async()=>{
-        if (!fullname || !username || !email || !password || !confirmpass){
-            alert("Fill all fields");
+        if (!formData.fullname || !formData.username || !formData.email || !formData.password || !formData.confirmpass){
+            alert('Fill all the feilds');
             return;
         }
-        const testemail = email.trim();
         const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(testemail)) {
-          alert("Please enter a valid email address");
+        if (!emailPattern.test(formData.email)) {
+          alert('Please enter a valid email address');
           return;
         }
-        if (password!=confirmpass){
+        if (formData.password!=formData.confirmpass){
             alert("Fill both Password feilds same");
             return;
-
         }
-        const names=collection(FIRESTORE_DB,"Users");
-        const snapshot=await getDocs(names);
-        const allusernames=snapshot.docs.map((doc)=>doc.data().username);
-        const allemails=snapshot.docs.map((doc)=>doc.data().email);
-        if (allusernames.includes(username)) {
-            alert("Username must be unique!");
-            return;
+        if (datausernames && datausernames.includes(formData.username))
+        {
+          alert("Username must be unique!");
+          return;
         }
-
-        if (allemails.includes(email)) {
-            alert("Email Address must be unique");
-            return;
+        if(dataemails && dataemails.includes(formData.email))
+        {
+          alert("Email Address must be unique");
+          return;
         }
-        const auth = FIREBASE_AUTH;
-        const userinfo = await createUserWithEmailAndPassword(auth, email, password);
-        const user = userinfo.user;
-        await setDoc(doc(FIRESTORE_DB, "Users", user.uid), {
-            fullName: fullname,
-            username: username,
-            email: email,
-            password: password,
-            createdAt: new Date(),
-        });
+        const SignUpInstance=new SignUpClass();
+        const AuthSignup=new AuthService(SignUpInstance);
+        AuthSignup.authenticate(formData);
         navi.navigate("Login");
-        setfullname('');
-        setusername('');
-        setemail('');
-        setpassword('');
-        setconfirmpass('');
 
     }
     const navigation = useNavigation();
@@ -76,23 +70,28 @@ export default function SignUp_page(){
             </View>
             <View style={Login_Styles.fullnamecontainer}>
                
-                <TextInput style={Login_Styles.input} placeholder="Full Name" value={fullname} onChangeText={setfullname} placeholderTextColor={"#384448"}  />
+                <TextInput style={Login_Styles.input} placeholder="Full Name" value={formData.fullname}
+        onChangeText={(text)=>setFormData({...formData,fullname:text})} placeholderTextColor={"#384448"}  />
             </View>
             <View style={Login_Styles.usernamecontainer}>
                
-                <TextInput style={Login_Styles.input} placeholder="UserName" value={username} onChangeText={setusername} placeholderTextColor={"#384448"}  />
+                <TextInput style={Login_Styles.input} placeholder="Usrename" value={formData.username}
+        onChangeText={(text)=>setFormData({...formData,username:text})} placeholderTextColor={"#384448"}  />
             </View>
             <View style={Login_Styles.EmailContainer}>
                 
-                <TextInput style={Login_Styles.input}  placeholder="Email" value={email} onChangeText={setemail} placeholderTextColor={"#384448"}/>
+                <TextInput style={Login_Styles.input} placeholder="Email Address" value={formData.email}
+        onChangeText={(text)=>setFormData({...formData,email:text})}  placeholderTextColor={"#384448"}/>
             </View>
             <View style={Login_Styles.passwordContainer}>
                 
-                <TextInput style={Login_Styles.input} placeholder="Password" value={password} onChangeText={setpassword} placeholderTextColor={"#384448"} secureTextEntry={true}  />
+                <TextInput style={Login_Styles.input} placeholder="Password"  value={formData.password}
+        onChangeText={(text)=>setFormData({...formData,password:text})} placeholderTextColor={"#384448"} secureTextEntry={true}  />
             </View>
             <View style={Login_Styles.confirmpasswordcontainer}>
                 
-                <TextInput style={Login_Styles.input} placeholder="Confirm Password" value={confirmpass} onChangeText={setconfirmpass} placeholderTextColor={"#384448"} secureTextEntry={true}  />
+                <TextInput style={Login_Styles.input} placeholder="Confirm Password"  value={formData.confirmpass}
+        onChangeText={(text)=>setFormData({...formData,confirmpass:text})} placeholderTextColor={"#384448"} secureTextEntry={true}  />
             </View>
             <View style={Login_Styles.buttoncontain}>
                 <TouchableOpacity onPress={handlesignup}>
@@ -271,3 +270,5 @@ const Login_Styles=StyleSheet.create({
       },
       
 });
+
+

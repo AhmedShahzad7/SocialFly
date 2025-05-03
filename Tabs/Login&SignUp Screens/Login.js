@@ -2,29 +2,30 @@ import { StyleSheet,View,Text,TextInput,Image,TouchableOpacity,ScrollView } from
 import {LinearGradient} from 'expo-linear-gradient';
 import { useNavigation } from "@react-navigation/native";
 import { useState } from "react";
-import { FIRESTORE_DB,FIREBASE_AUTH } from "../../FirebaseConfig";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {LoginClass,AuthService} from "../AuthenticationService"
 export default function Login_page(){
     const navigation = useNavigation();
-    const [email,setemail]=useState('');
-    const [password,setpassword]=useState('');
+    const [formData, setFormData] = useState({
+      email: "",
+      password: "",
+    });
+  
     const handlelogin = async () => {
-        if (!email || !password) {
-          alert("Fill all fields");
-          return;
-        }
-        const testemail = email.trim();
-        const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailPattern.test(testemail)) {
-          alert("Please enter a valid email address");
-          return;
-        }
-        const auth = FIREBASE_AUTH;
-        await signInWithEmailAndPassword(auth,email, password);
-        alert('Welcome: '+ email);
-        navigation.replace("MainApp", { screen: "Home" });
-        setemail('');
-        setpassword('');
+      if (!formData.email || !formData.password) {
+        alert("Fill all fields");
+        return;
+      }
+      const email = formData.email.trim();
+      const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailPattern.test(email)) {
+        alert("Please enter a valid email address");
+        return;
+      }
+      const loginInstance = new LoginClass();
+      const AuthLogin = new AuthService(loginInstance);
+      AuthLogin.authenticate(formData);
+      alert("Welcome " + formData.email);
+      navigation.replace("MainApp", { screen: "Home" });
     }
     return(
         <View style={Login_Styles.gradientContainer}>
@@ -40,10 +41,12 @@ export default function Login_page(){
             <Text style={Login_Styles.h2}>Welcome Back!</Text>
             </View>
             <View style={Login_Styles.Emailcontainer}>
-                <TextInput style={Login_Styles.input} value={email} onChangeText={setemail} placeholder="Email" placeholderTextColor={"#384448"} />
+                <TextInput style={Login_Styles.input} value={formData.email}
+        onChangeText={(text) => setFormData({ ...formData, email: text })} placeholder="Email" placeholderTextColor={"#384448"} />
             </View>
             <View style={Login_Styles.passwordcontainer}>
-                <TextInput style={Login_Styles.input} value={password} onChangeText={setpassword} placeholder="Password" placeholderTextColor={"#384448"} secureTextEntry={true} />
+                <TextInput style={Login_Styles.input} value={formData.password}
+        onChangeText={(text) => setFormData({ ...formData, password: text })} placeholder="Password" placeholderTextColor={"#384448"} secureTextEntry={true} />
             </View>
             <View style={Login_Styles.buttoncontain}>
                 <TouchableOpacity onPress={handlelogin}>
@@ -56,7 +59,7 @@ export default function Login_page(){
         <Text style={Login_Styles.emailtext}>Forgot Password?</Text>
       </View>
       <View style={Login_Styles.footerContainer}>
-        <Text style={Login_Styles.footerText}>Don’t have a account?</Text>
+        <Text style={Login_Styles.footerText}>Don�t have a account?</Text>
         <TouchableOpacity onPress={()=>navigation.navigate("SignUp")}>
           <Text style={Login_Styles.signupText}>Sign Up Now</Text>
         </TouchableOpacity>

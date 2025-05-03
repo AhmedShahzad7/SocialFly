@@ -1,10 +1,8 @@
 import { React, useState, useEffect } from 'react';
 import { View, Text, StyleSheet, FlatList,Image, TouchableOpacity } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
-import { collection, getDocs, query, where,getDoc,doc } from 'firebase/firestore';
-import { FIRESTORE_DB } from '../../FirebaseConfig';
-import { getAuth } from 'firebase/auth';
 import { useNavigation } from "@react-navigation/native";
+import { FetchUersFriendsChatpage } from '../FetchData';
 export default function C() {
   const chatnavi = useNavigation();
   const [Friend,setfriend]=useState([]);
@@ -12,43 +10,9 @@ export default function C() {
     chatnavi.navigate("Message", { currentfriend,currentfriendprofileimage });
   };
   const AllFriends = async () => {
-    const auth = getAuth();
-    const current = auth.currentUser;
-    const UserDetails = doc(FIRESTORE_DB, "Users", current.uid);
-    const snapusername = await getDoc(UserDetails);
-    const currentusername=snapusername.data();
-    const q = query(
-      collection(FIRESTORE_DB, "Friends"),
-      where("username", "==", currentusername.username)
-    );
-    const snapshot = await getDocs(q);
-  
-    const friendsData = await Promise.all(
-      snapshot.docs.map(async (docItem) => {
-        const friendUsername = docItem.data().friendname;
-        
-        const userQuery = query(
-          collection(FIRESTORE_DB, "Users"),
-          where("username", "==", friendUsername)
-        );
-        const userSnapshot = await getDocs(userQuery);
-  
-        if (!userSnapshot.empty) {
-          const friendData = userSnapshot.docs[0].data();
-          return {
-            friendname: friendUsername,
-            profileimage: friendData.profile_url 
-          };
-        } else {
-          return {
-            friendname: friendUsername,
-            profileimage: '', 
-          };
-        }
-      })
-    );
-  
-    setfriend(friendsData);
+    const fetchchatpagedetails=new FetchUersFriendsChatpage();
+    const userchatpage=await fetchchatpagedetails.fetchdata();
+    setfriend(userchatpage);
   };
   
   useEffect(() => {
